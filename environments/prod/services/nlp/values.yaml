@@ -1,0 +1,209 @@
+deployment:
+  containers:
+  - env:
+    - name: POD_VAR
+      value: nlp
+    - name: SHOULD_VERIFY
+      value: 'True'
+    - name: ES_SERVICE_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_HOST
+          name: datatracker-config
+    - name: ES_SERVICE_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_PORT
+          name: datatracker-config
+    - name: ELASTIC_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_HOST
+          name: datatracker-config
+    - name: ELASTIC_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_PORT
+          name: datatracker-config
+    - name: REDIS_Q_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Q_HOST
+          name: datatracker-config
+    - name: REDIS_Q_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Q_PORT
+          name: datatracker-config
+    - name: REDIS_Cl_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Cl_HOST
+          name: datatracker-config
+    - name: REDIS_Cl_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Cl_PORT
+          name: datatracker-config
+    - name: REDIS_C_DBINDEX
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_DBINDEX
+          name: datatracker-config
+    - name: REDIS_C_STATISTICS_DBINDEX
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_STATISTICS_DBINDEX
+          name: datatracker-config
+    - name: REDIS_C_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_HOST
+          name: datatracker-config
+    - name: REDIS_C_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_PORT
+          name: datatracker-config
+    - name: REDIS_DB_TASK_INDEX
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_DB_TASK_INDEX
+          name: datatracker-config
+    - name: PGSQL_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_HOST
+          name: datatracker-config
+    - name: PGSQL_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_PORT
+          name: datatracker-config
+    - name: PGSQL_DB
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_DB
+          name: datatracker-config
+    - name: SCAN_STATUS
+      valueFrom:
+        configMapKeyRef:
+          key: SCAN_STATUS
+          name: datatracker-config
+    - name: TOTAL_TO_DO
+      valueFrom:
+        configMapKeyRef:
+          key: TOTAL_TO_DO
+          name: datatracker-config
+    - name: TOTAL_DONE
+      valueFrom:
+        configMapKeyRef:
+          key: TOTAL_DONE
+          name: datatracker-config
+    - name: SCAN_RESET_EXISTS
+      valueFrom:
+        configMapKeyRef:
+          key: SCAN_RESET_EXISTS
+          name: datatracker-config
+    - name: SCAN_ACTIVE_CONNECTORS
+      valueFrom:
+        configMapKeyRef:
+          key: SCAN_ACTIVE_CONNECTORS
+          name: datatracker-config
+    - name: SCAN_COLLECT_PATHS
+      valueFrom:
+        configMapKeyRef:
+          key: SCAN_COLLECT_PATHS
+          name: datatracker-config
+    - name: SCAN_MODIFY_DELETED
+      valueFrom:
+        configMapKeyRef:
+          key: SCAN_MODIFY_DELETED
+          name: datatracker-config
+    - name: SCAN_CLEAR_DELETED
+      valueFrom:
+        configMapKeyRef:
+          key: SCAN_CLEAR_DELETED
+          name: datatracker-config
+    - name: SCAN_POST_ENTITIES
+      valueFrom:
+        configMapKeyRef:
+          key: SCAN_POST_ENTITIES
+          name: datatracker-config
+    - name: REGULAR_SCAN
+      valueFrom:
+        configMapKeyRef:
+          key: REGULAR_SCAN
+          name: datatracker-config
+    - name: EVENTS
+      valueFrom:
+        configMapKeyRef:
+          key: EVENTS
+          name: datatracker-config
+    - name: PROMETHEUS_ADDRESS
+      valueFrom:
+        configMapKeyRef:
+          key: PROMETHEUS_ADDRESS
+          name: datatracker-config
+    - name: PGSQL_PASS
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_PASS
+          name: datatracker-secrets
+    - name: PGSQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_USER
+          name: datatracker-secrets
+    - name: REGULAR_SCAN_NUM_THREADS
+      valueFrom:
+        configMapKeyRef:
+          key: REGULAR_SCAN_NUM_THREADS
+          name: datatracker-config
+    - name: SMB_SYSTEM_SHARES
+      valueFrom:
+        configMapKeyRef:
+          key: SMB_SYSTEM_SHARES
+          name: datatracker-config
+    - name: EVENTS_SCAN_NUM_THREADS
+      valueFrom:
+        configMapKeyRef:
+          key: EVENTS_SCAN_NUM_THREADS
+          name: datatracker-config
+    - name: SCAN_TYPE
+      value: scan
+    - name: SOURCE_IV
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sourceiv
+    - name: SOURCE_KEY
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sourcekey
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/nlp:v3.6.2
+    name: nlp
+    ports:
+    - containerPort: 3088
+    resources:
+      requests:
+        memory: 400Mi
+  enabled: true
+  imagePullSecrets:
+    name: regcred
+  initContainers: []
+  name: nlp-deployment
+  replicas: 1
+  securityContext:
+    fsGroup: 1001
+    runAsGroup: 1001
+    runAsUser: 1001
+  serviceAccountName: api-service-account
+svc:
+  enabled: true
+  ports:
+  - name: nlp
+    port: 3088
+    protocol: TCP
+    targetPort: 3088

@@ -1,0 +1,70 @@
+antiAffinity: soft
+antiAffinityTopologyKey: kubernetes.io/hostname
+clusterHealthCheckParams: wait_for_status=yellow&timeout=5s
+clusterName: elastic-me-elasticsearch
+esConfig: {}
+esJavaOpts: -Xmx5g -Xms5g -XX:ActiveProcessorCount=32
+esMajorVersion: 6
+exposeHttp: true
+extraEnvs: []
+extraInitContainers: []
+extraVolumeMounts: []
+extraVolumes: []
+fsGroup: 1000
+fullnameOverride: ''
+httpPort: 9200
+image: docker.elastic.co/elasticsearch/elasticsearch
+imagePullPolicy: IfNotPresent
+imageTag: 6.8.20
+ingress:
+  annotations: {}
+  enabled: false
+  hosts:
+  - chart-example.local
+  path: /
+  tls: []
+initResources: {}
+masterService: elastic-me-elasticsearch-client
+maxUnavailable: 1
+minimumMasterNodes: 1
+nameOverride: ''
+networkHost: 0.0.0.0
+nodeAffinity: {}
+nodeGroup: client
+nodeSelector: {}
+persistence:
+  annotations: {}
+  enabled: true
+podAnnotations: {}
+podManagementPolicy: OrderedReady
+protocol: http
+readinessProbe:
+  failureThreshold: 3
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  successThreshold: 3
+  timeoutSeconds: 10
+replicas: 2
+resources:
+  limits:
+    cpu: 4000m
+    memory: 8Gi
+  requests:
+    cpu: 1000m
+    memory: 4Gi
+roles:
+  data: 'true'
+  ingest: 'true'
+  master: 'true'
+secretMounts: []
+sysctlVmMaxMapCount: 262144
+terminationGracePeriod: 120
+tolerations: []
+transportPort: 9300
+updateStrategy: RollingUpdate
+volumeClaimTemplate:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi

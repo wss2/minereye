@@ -1,0 +1,72 @@
+deployment:
+  containers:
+  - env:
+    - name: POD_VAR
+      value: es-service
+    - name: ES_SERVICE_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_HOST
+          name: datatracker-config
+    - name: ES_SERVICE_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_PORT
+          name: datatracker-config
+    - name: ELASTIC_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_HOST
+          name: datatracker-config
+    - name: ELASTIC_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_PORT
+          name: datatracker-config
+    - name: PGSQL_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_HOST
+          name: datatracker-config
+    - name: PGSQL_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_PORT
+          name: datatracker-config
+    - name: PGSQL_DB
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_DB
+          name: datatracker-config
+    - name: PGSQL_PASS
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_PASS
+          name: datatracker-secrets
+    - name: PGSQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_USER
+          name: datatracker-secrets
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/es-service:v3.6.2
+    name: es-service
+    ports:
+    - containerPort: 4231
+    resources:
+      requests:
+        memory: 100Mi
+  enabled: true
+  imagePullSecrets:
+    name: regcred
+  initContainers: []
+  name: es-service-deployment
+  replicas: 1
+  securityContext: {}
+  serviceAccountName: ''
+svc:
+  enabled: true
+  ports:
+  - name: es-service
+    port: 4231
+    protocol: TCP
+    targetPort: 4231

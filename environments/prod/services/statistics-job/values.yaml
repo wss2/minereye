@@ -1,0 +1,17 @@
+cronjob:
+  command:
+  - sh
+  - -c
+  - node runStats
+  concurrencyPolicy: Forbid
+  enabled: true
+  env:
+  - name: DASH_SERVER_HOST
+    valueFrom:
+      configMapKeyRef:
+        key: DASH_SERVER_HOST
+        name: datatracker-config
+  image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/statistics:v3.6.2
+  name: statistics-job
+  restart_policy: Never
+  schedule: 0 */4 * * *

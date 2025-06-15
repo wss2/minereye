@@ -1,0 +1,22 @@
+cronjob:
+  command:
+  - wget
+  - http://$(DASH_SERVER_HOST):$(DASH_SERVER_API_PORT)/fetchAipLabels
+  concurrency: Replace
+  enabled: true
+  env:
+  - name: DASH_SERVER_HOST
+    valueFrom:
+      configMapKeyRef:
+        key: DASH_SERVER_HOST
+        name: datatracker-config
+  - name: DASH_SERVER_API_PORT
+    valueFrom:
+      configMapKeyRef:
+        key: DASH_SERVER_API_PORT
+        name: datatracker-config
+  image: busybox
+  name: scheduled-aip-labels-job
+  restart_policy: OnFailure
+  schedule: 0 0 * * 0,1,2,3,4,5,6
+  suspend: 'true'

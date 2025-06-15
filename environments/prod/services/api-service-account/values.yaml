@@ -1,0 +1,28 @@
+account:
+  enabled: true
+binding:
+  enabled: true
+clusterRole:
+  enabled: true
+  resourceUrls:
+  - nonResourceURLs:
+    - '*'
+    verbs:
+    - '*'
+  rules:
+  - apiGroups:
+    - ''
+    - apps
+    - metrics.k8s.io
+    resources:
+    - pods/exec
+    - pods
+    - deployments
+    - nodes
+    - deployments/scale
+    verbs:
+    - get
+    - list
+    - watch
+    - update
+    - patch

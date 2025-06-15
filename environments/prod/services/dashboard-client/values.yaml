@@ -1,0 +1,23 @@
+deployment:
+  containers:
+  - env: []
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/dashboard-client:v3.6.2
+    name: dashboard-client
+    ports: []
+    resources:
+      requests:
+        memory: 100Mi
+  enabled: true
+  imagePullSecrets:
+    name: regcred
+  initContainers: []
+  name: dashboard-client
+  replicas: 1
+  securityContext: {}
+svc:
+  enabled: true
+  ports:
+  - name: dashboard-client
+    port: 80
+    protocol: TCP
+    targetPort: 8080

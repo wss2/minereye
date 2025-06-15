@@ -1,0 +1,124 @@
+deployment:
+  containers:
+  - env:
+    - name: POD_VAR
+      value: tracker
+    - name: ES_SERVICE_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_HOST
+          name: datatracker-config
+    - name: ES_SERVICE_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_PORT
+          name: datatracker-config
+    - name: ELASTIC_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_HOST
+          name: datatracker-config
+    - name: ELASTIC_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_PORT
+          name: datatracker-config
+    - name: PGSQL_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_HOST
+          name: datatracker-config
+    - name: PGSQL_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_PORT
+          name: datatracker-config
+    - name: PGSQL_DB
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_DB
+          name: datatracker-config
+    - name: PGSQL_PASS
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_PASS
+          name: datatracker-secrets
+    - name: PGSQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_USER
+          name: datatracker-secrets
+    - name: REDIS_Q_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Q_HOST
+          name: datatracker-config
+    - name: REDIS_Q_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Q_PORT
+          name: datatracker-config
+    - name: DELETED_FILES_Q
+      valueFrom:
+        configMapKeyRef:
+          key: DELETED_FILES_Q
+          name: datatracker-config
+    - name: SIEM_PROTOCOL
+      valueFrom:
+        configMapKeyRef:
+          key: SIEM_PROTOCOL
+          name: datatracker-config
+    - name: SIEM_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: SIEM_PORT
+          name: datatracker-config
+    - name: PROMETHEUS_ADDRESS
+      valueFrom:
+        configMapKeyRef:
+          key: PROMETHEUS_ADDRESS
+          name: datatracker-config
+    - name: SOURCE_IV
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sourceiv
+    - name: SOURCE_KEY
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sourcekey
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/tracker:v3.6.2
+    name: tracker
+    ports:
+    - containerPort: 1514
+    resources:
+      requests:
+        memory: 100Mi
+  enabled: true
+  imagePullSecrets:
+    name: regcred
+  initContainers: []
+  name: tracker-deployment
+  replicas: 1
+  securityContext: {}
+  serviceAccountName: ''
+svc:
+  enabled: true
+  ports:
+  - name: syslogudp
+    port: 1514
+    protocol: UDP
+    targetPort: 1514
+  - name: syslogtcp
+    port: 1514
+    protocol: TCP
+    targetPort: 1514
+  - name: syslogudp1
+    port: 514
+    protocol: UDP
+    targetPort: 514
+  - name: syslogtcp1
+    port: 514
+    protocol: TCP
+    targetPort: 514

@@ -1,0 +1,130 @@
+configMap:
+  data:
+    ACTIONS_HOST: actions
+    ACTIONS_PORT: '3005'
+    ANN_SENSITIVITY: '55'
+    ANN_SERVICE_HOST: ann-service
+    ANN_SERVICE_PORT: '2400'
+    APPLY_LINGUISTIC: apply
+    BULK_MAX_SIZE: '26214400'
+    CLASSIFICATION_HOST: classification-ms
+    CLASSIFICATION_PORT: '80'
+    CONNECTORS_PORT: '3014'
+    CRAWLER_HOST: crawler
+    CRAWLER_PORT: '3013'
+    DASH_CLIENT_HOST: dashboard-client
+    DASH_CLIENT_PORT: '80'
+    DASH_SERVER_API_PORT: '8081'
+    DASH_SERVER_HOST: dashboard-server
+    DASH_SERVER_PORT: '80'
+    DELETED_FILES_Q: deleted files
+    DEVELOPMENT: production
+    DOWNLOAD_PROCESS_CYCLE_SEC: '14400'
+    ELASTIC_HOST: elastic-me-elasticsearch-client
+    ELASTIC_PORT: '9200'
+    EMAIL_MS_PORT: '6999'
+    ENCRYPTED_TEXT: 'This document is protected See: http://go.microsoft.com^&^to
+      find an updated application which can open this content To learn more about
+      the Microsoft information protection technology used to protect this file ^&^Permission
+      for this document is currently restricted^&^You can request the author of the
+      document to send a copy that can be read using the Rights Management Add-on
+      ^&^Microsoft Azure Information Protection This is a protected document ^&^This
+      is a protected document'
+    ENCRYPTED_TEXT_DELIMITER: ^&^
+    ENCRYPTED_TEXT_MAX_LEN: '2000'
+    ENGINE_HOST: engine
+    ENGINE_PORT: '3050'
+    ENTITY_REGRESSION_HOST: entity-regression
+    ENTITY_REGRESSION_PORT: '2230'
+    ENTITY_UPDATE: entities
+    ES_SERVICE_HOST: es-service
+    ES_SERVICE_PORT: '4231'
+    EVENTS: events
+    EVENTS_SCAN_NUM_THREADS: '5'
+    EXCEL_EXTENSION: xls, xlt, xlm, xlsx, xlsm, xltx, xltm, xlsb, xla, xlam, xll,
+      xlw, csv, ods
+    HIDE_JS_MAP_FILES: '1'
+    IS_SESSION_COOKIES: '1'
+    KIBANA_HOST: kibana-default
+    KIBANA_PORT: '5601'
+    LOCAL: '0'
+    MACHINE_ID: 3d30b95c
+    MAX_CHILD_PER_ZIP: '1000'
+    MAX_DOWNLOAD_PROCESS: '30'
+    MAX_FILE_BATCH: '30'
+    MAX_ITERATION_PROCESS: '30'
+    MAX_TASK_WAIT: '5400'
+    MIN_TIME_BETWEEN_ITERATIONS: '43200'
+    MIP_HOST: mip
+    MIP_PORT: '7133'
+    MODIFIED_FILES_Q: modified files
+    PGSQL_DB: visiongrid
+    PGSQL_HOST: postgres-me-postgresql
+    PGSQL_PORT: '5432'
+    POST_PROCESSING_HOST: post-processing
+    POST_PROCESSING_PORT: '3015'
+    PROMETHEUS_ADDRESS: http://prometheus-pushgateway.monitoring.svc.cluster.local:9091
+    RC_CV: rc cv
+    RC_DUPLICATE: rc duplicate
+    RC_LINGUISTIC: rc linguistic
+    RC_MAX_COUNT_DUP: '1000'
+    RC_MAX_COUNT_MIP: '1000'
+    RC_MAX_COUNT_NEAR_DUP: '1000'
+    RC_MIP: rc mip
+    RC_NEAR_DUPLICATE: rc near duplicate
+    RC_SECURITY: rc security
+    REDIS_C_DBINDEX: '0'
+    REDIS_C_HOST: rediscache-me-master
+    REDIS_C_PORT: '6380'
+    REDIS_C_STATISTICS_DBINDEX: '3'
+    REDIS_Cl_HOST: rediscluster-master
+    REDIS_Cl_PORT: '6381'
+    REDIS_DB_SIGNALS_INDEX: '8'
+    REDIS_DB_TASK_INDEX: '7'
+    REDIS_MAX_SIZE: '7963676416'
+    REDIS_Q_HOST: redisqueue-me-master
+    REDIS_Q_MAX_SIZE: '20'
+    REDIS_Q_PORT: '6379'
+    REGULAR_SCAN: scan
+    REGULAR_SCAN_NUM_THREADS: '10'
+    SCAN_ACTIVE_CONNECTORS: active connectors
+    SCAN_CLEAR_DELETED: clear deleted files
+    SCAN_COLLECT_PATHS: collect paths
+    SCAN_ENTITIES_REGRESSION: SCAN_ENTITIES_REGRESSION
+    SCAN_MODIFY_DELETED: modify / deleted files
+    SCAN_MONITORING_TIME: '60'
+    SCAN_POST_ENTITIES: post entities
+    SCAN_RESET_EXISTS: reset exists
+    SCAN_STATUS: scan_status
+    SECLORE_HOST: seclore
+    SECLORE_PORT: '4311'
+    SIEM_PORT: '1514'
+    SIEM_PROTOCOL: UDP
+    SIGNAL_HOST: signal
+    SIGNAL_PORT: '27788'
+    SIGNAL_SERVICE_HOST: signal
+    SIGNAL_SERVICE_PORT: '27788'
+    SMB_REPO_HOST: smb-repo
+    SMB_SYSTEM_SHARES: C$, ADMIN$, IPC$, NETLOGON, SYSVOL, CertEnroll
+    STATS_HOST: statistics
+    STATS_PORT: '5000'
+    TASK_MANAGER_HOST: task-manager
+    TASK_MANAGER_PORT: '8080'
+    TIKA_HOST: tika
+    TIKA_PORT: '9998'
+    TOKEN_COOKIE_MAX_AGE_MILLI_SECONDS: '3600000'
+    TOTAL_DONE: total_done
+    TOTAL_TO_DO: total
+    USE_PRIORITY: use
+    VERSION: v3.6.2
+    VG_FILE_INFO_SHARDS: '3'
+    VG_TEXT_SHARDS: '3'
+    ZR_HOST: zoom-report
+    ZR_MAX_SIMILARITIES: '1000'
+    ZR_MIN_SIMILARITIES: '200'
+    ZR_MIN_SIM_BIN: '0.9'
+    ZR_MIN_SIM_GENERIC: '0.7'
+    ZR_MIN_SIM_TXT: '0.65'
+    ZR_PORT: '8153'
+  enabled: enabled
+  name: datatracker-config

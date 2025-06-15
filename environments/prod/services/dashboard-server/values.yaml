@@ -1,0 +1,339 @@
+deployment:
+  containers:
+  - env:
+    - name: EMAIL_MS_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: EMAIL_MS_PORT
+          name: datatracker-config
+    - name: PGSQL_DB
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_DB
+          name: datatracker-config
+    - name: PGSQL_PASS
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_PASS
+          name: datatracker-secrets
+    - name: PGSQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_USER
+          name: datatracker-secrets
+    - name: DEFAULT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: dashboard
+    - name: JWT_SECRET
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: jwtsecret
+    - name: SOURCE_IV
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sourceiv
+    - name: SOURCE_KEY
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sourcekey
+    - name: PGSQL_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_HOST
+          name: datatracker-config
+    - name: PGSQL_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_PORT
+          name: datatracker-config
+    - name: ELASTIC_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_HOST
+          name: datatracker-config
+    - name: ELASTIC_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_PORT
+          name: datatracker-config
+    - name: REDIS_C_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_HOST
+          name: datatracker-config
+    - name: TASK_MANAGER_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: TASK_MANAGER_HOST
+          name: datatracker-config
+    - name: ENTITY_REGRESSION_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ENTITY_REGRESSION_HOST
+          name: datatracker-config
+    - name: ENTITY_REGRESSION_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ENTITY_REGRESSION_PORT
+          name: datatracker-config
+    - name: TASK_MANAGER_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: TASK_MANAGER_PORT
+          name: datatracker-config
+    - name: CRAWLER_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: CRAWLER_HOST
+          name: datatracker-config
+    - name: CRAWLER_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: CRAWLER_PORT
+          name: datatracker-config
+    - name: CONNECTORS_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: CONNECTORS_PORT
+          name: datatracker-config
+    - name: DASH_CLIENT_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: DASH_CLIENT_HOST
+          name: datatracker-config
+    - name: DASH_CLIENT_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: DASH_CLIENT_PORT
+          name: datatracker-config
+    - name: ES_SERVICE_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_HOST
+          name: datatracker-config
+    - name: ES_SERVICE_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_PORT
+          name: datatracker-config
+    - name: ZR_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ZR_HOST
+          name: datatracker-config
+    - name: ZR_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ZR_PORT
+          name: datatracker-config
+    - name: MIP_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ENGINE_HOST
+          name: datatracker-config
+    - name: MIP_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: MIP_PORT
+          name: datatracker-config
+    - name: MIP_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ENGINE_HOST
+          name: datatracker-config
+    - name: SECLORE_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: SECLORE_PORT
+          name: datatracker-config
+    - name: SECLORE_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: SECLORE_HOST
+          name: datatracker-config
+    - name: STATS_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: STATS_HOST
+          name: datatracker-config
+    - name: STATS_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: STATS_PORT
+          name: datatracker-config
+    - name: ENTITY_REGRESSION_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ENTITY_REGRESSION_PORT
+          name: datatracker-config
+    - name: VERSION
+      valueFrom:
+        configMapKeyRef:
+          key: VERSION
+          name: datatracker-config
+    - name: ACTIONS_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ACTIONS_HOST
+          name: datatracker-config
+    - name: ACTIONS_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ACTIONS_PORT
+          name: datatracker-config
+    - name: TOKEN_COOKIE_MAX_AGE_MILLI_SECONDS
+      valueFrom:
+        configMapKeyRef:
+          key: TOKEN_COOKIE_MAX_AGE_MILLI_SECONDS
+          name: datatracker-config
+    - name: IS_SESSION_COOKIES
+      valueFrom:
+        configMapKeyRef:
+          key: IS_SESSION_COOKIES
+          name: datatracker-config
+    - name: HIDE_JS_MAP_FILES
+      valueFrom:
+        configMapKeyRef:
+          key: HIDE_JS_MAP_FILES
+          name: datatracker-config
+    - name: CLASSIFICATION_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: CLASSIFICATION_HOST
+          name: datatracker-config
+    - name: CLASSIFICATION_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: CLASSIFICATION_PORT
+          name: datatracker-config
+    - name: VG_FILE_INFO_SHARDS
+      valueFrom:
+        configMapKeyRef:
+          key: VG_FILE_INFO_SHARDS
+          name: datatracker-config
+    - name: VG_TEXT_SHARDS
+      valueFrom:
+        configMapKeyRef:
+          key: VG_TEXT_SHARDS
+          name: datatracker-config
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/dashboard-server:v3.6.2
+    name: dashboard-server
+    ports:
+    - containerPort: 80
+      name: dashboard-ms
+    resources:
+      requests:
+        memory: 100Mi
+  - env: []
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/notifications-manager:v3.6.2
+    name: notifications-manager
+    ports:
+    - containerPort: 9191
+    resources:
+      requests:
+        memory: 100Mi
+  - env:
+    - name: DASH_SERVER_API_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: DASH_SERVER_API_PORT
+          name: datatracker-config
+    - name: DASH_SERVER_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: DASH_SERVER_HOST
+          name: datatracker-config
+    - name: DASH_SERVER_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: DASH_SERVER_PORT
+          name: datatracker-config
+    - name: LOCAL
+      valueFrom:
+        configMapKeyRef:
+          key: LOCAL
+          name: datatracker-config
+    - name: DASH_SERVER_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: DASH_SERVER_HOST
+          name: datatracker-config
+    - name: DASH_SERVER_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: DASH_SERVER_PORT
+          name: datatracker-config
+    - name: VERSION
+      valueFrom:
+        configMapKeyRef:
+          key: VERSION
+          name: datatracker-config
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/emails-ms:v3.6.2
+    name: emails-ms
+    ports:
+    - containerPort: 6999
+    resources:
+      requests:
+        memory: 100Mi
+  enabled: true
+  imagePullSecrets:
+    name: regcred
+  initContainers:
+  - command:
+    - sh
+    - -c
+    - while [ pg_isready -h postgres-me-postgresql -p 5432 ] || [ pg_isready -h postgres-minereye-postgresql
+      -p 5432 ] ; do echo waiting for database; sleep 2; done;
+    env: []
+    image: bitnami/postgresql:11-debian-10
+    name: init-pg
+    ports: []
+    resources: {}
+  name: dashboard-server
+  replicas: 1
+  securityContext: {}
+  serviceAccountName: api-service-account-ip
+svc:
+  enabled: true
+  ports:
+  - name: server
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: pgapi
+    port: 8081
+    protocol: TCP
+    targetPort: 8081
+  - name: cerebro
+    port: 8082
+    protocol: TCP
+    targetPort: 8082
+  - name: grafana
+    port: 8083
+    protocol: TCP
+    targetPort: 8083
+  - name: kibana
+    port: 8084
+    protocol: TCP
+    targetPort: 8084
+  - name: pgadmin
+    port: 8085
+    protocol: TCP
+    targetPort: 8085
+  - name: hubble-ui
+    port: 8086
+    protocol: TCP
+    targetPort: 8086
+  - name: hubble2
+    port: 8087
+    protocol: TCP
+    targetPort: 8087
+  - name: rabbit
+    port: 8088
+    protocol: TCP
+    targetPort: 8088

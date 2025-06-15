@@ -1,0 +1,64 @@
+cronjob:
+  command:
+  - sh
+  - -c
+  - node incremental
+  concurrency: Forbid
+  enabled: true
+  env:
+  - name: ELASTIC_HOST
+    valueFrom:
+      configMapKeyRef:
+        key: ELASTIC_HOST
+        name: datatracker-config
+  - name: ELASTIC_PORT
+    valueFrom:
+      configMapKeyRef:
+        key: ELASTIC_PORT
+        name: datatracker-config
+  - name: DASH_SERVER_HOST
+    valueFrom:
+      configMapKeyRef:
+        key: DASH_SERVER_HOST
+        name: datatracker-config
+  - name: ES_SERVICE_HOST
+    valueFrom:
+      configMapKeyRef:
+        key: ES_SERVICE_HOST
+        name: datatracker-config
+  - name: ES_SERVICE_PORT
+    valueFrom:
+      configMapKeyRef:
+        key: ES_SERVICE_PORT
+        name: datatracker-config
+  - name: PGSQL_DB
+    valueFrom:
+      configMapKeyRef:
+        key: PGSQL_DB
+        name: datatracker-config
+  - name: PGSQL_PASS
+    valueFrom:
+      secretKeyRef:
+        key: PGSQL_PASS
+        name: datatracker-secrets
+  - name: PGSQL_USER
+    valueFrom:
+      secretKeyRef:
+        key: PGSQL_USER
+        name: datatracker-secrets
+  - name: PGSQL_HOST
+    valueFrom:
+      configMapKeyRef:
+        key: PGSQL_HOST
+        name: datatracker-config
+  - name: PGSQL_PORT
+    valueFrom:
+      configMapKeyRef:
+        key: PGSQL_PORT
+        name: datatracker-config
+  image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/classification-ms:v3.6.2
+  name: classification-ms-job
+  restart_policy: Never
+  schedule: 0 2/4 * * *
+  secret:
+    name: regcred

@@ -1,0 +1,132 @@
+{{- if and .Values.deployment (default false .Values.deployment.enabled) }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.deployment.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  {{- with .Values.deployment.maxUnavailable }}
+  strategy:
+    rollingUpdate:
+      maxUnavailable: {{ . }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+    {{- with .Values.deployment.securityContext }}
+      securityContext:
+        fsGroup: 1001
+        runAsGroup: 1001
+        {{- with .runAsUser }}
+        runAsUser: {{ . }}
+        {{- end }}
+        {{- with .readOnlyRootFilesystem }}
+        readOnlyRootFilesystem: {{ . }}
+        {{- end }}
+   {{- end }}
+   {{- with .Values.deployment.serviceAccountName }}
+      serviceAccountName: {{ . }}
+   {{- end }}
+   {{- if .Values.deployment.priorityClassName }}
+      priorityClassName: {{ .Values.deployment.priorityClassName }}
+   {{- end }}
+   {{- if .Values.deployment.imagePullSecrets }}
+      imagePullSecrets:
+        {{- with .Values.deployment.imagePullSecrets.name }}
+        - name: {{ . }}
+        {{- end }}
+   {{- end }}
+      containers:
+      {{- range .Values.deployment.containers }}
+        - name: {{ .name }}
+          image: "{{ .image }}"
+          imagePullPolicy: IfNotPresent
+        {{- if .ports }}
+          ports:
+          {{- range .ports }}
+            - containerPort: {{ .containerPort }}
+              {{- with .name }}
+              name: {{ . }}
+              {{- end }}
+              {{- with .protocol }}
+              protocol: {{ . }}
+              {{- end }}
+          {{- end }}
+        {{- end }}
+          {{- if .env }}
+          env:
+          {{- range .env }}
+            - name: {{ .name }}
+              {{- if .value }}
+              value: {{ .value | quote }}
+              {{- end }}
+              {{- if .valueFrom }}
+              valueFrom:
+                {{- if .valueFrom.configMapKeyRef }}
+                configMapKeyRef:
+                  key: {{ .valueFrom.configMapKeyRef.key }}
+                  name: {{ .valueFrom.configMapKeyRef.name }}
+                {{- end }}
+                {{- if .valueFrom.secretKeyRef }}
+                secretKeyRef:
+                  key: {{ .valueFrom.secretKeyRef.key }}
+                  name: {{ .valueFrom.secretKeyRef.name }}
+                {{- end }}
+              {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- if .volumeMounts}}
+          {{- range .volumeMounts }}
+          volumeMounts:
+            - mountPath: {{ .mountPath }}
+              name: {{ .name }}
+          {{- end }}
+          {{- end }}
+          {{- if .resources }}
+          resources:
+          {{- if .resources.limits }}
+            limits:
+            {{- if .resources.limits.cpu }}
+              cpu: {{ .resources.limits.cpu }}
+              {{- end }}
+              {{- if .resources.limits.memory }}
+              memory: {{ .resources.limits.memory }}
+              {{- end }}
+              {{- end }}
+              {{- if .resources.requests }}
+            requests:
+            {{- if .resources.requests.cpu }}
+              cpu: {{ .resources.requests.cpu }}
+              {{- end }}
+              {{- if .resources.requests.memory }}
+              memory: {{ .resources.requests.memory }}
+              {{- end }}
+          {{- end }}
+          {{- end }}
+      {{- end }}
+      {{- if .Values.deployment.initContainers }}
+      initContainers:
+        {{- range .Values.deployment.initContainers }}
+        - name: {{ .name }}
+          image: {{ .image }}
+          command:
+            {{- range .command }}
+            - {{ . | quote }}
+            {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.deployment.volumes }}
+      volumes:
+        {{- range .Values.deployment.volumes }}
+        - name: {{ .name }}
+          emptyDir: {}
+        {{- end }}
+      {{- end }}
+{{- end }}

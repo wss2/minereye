@@ -1,0 +1,11 @@
+priorityClasses:
+  classes:
+  - description: This priority class should be used for all pods beside engine
+    globalDefault: true
+    name: default-priority
+    value: 1000000
+  - description: This priority class should be used for engine pods
+    globalDefault: false
+    name: low-priority
+    value: 1
+  enabled: true

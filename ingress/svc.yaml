@@ -1,0 +1,7 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: dashboard-server
+spec:
+  type: ExternalName
+  externalName: dashboard-server.me.svc.cluster.local

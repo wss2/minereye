@@ -1,0 +1,41 @@
+deployment:
+  containers:
+  - env:
+    - name: ELASTIC_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_HOST
+          name: datatracker-config
+    - name: ELASTIC_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_PORT
+          name: datatracker-config
+    - name: DASH_SERVER_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: DASH_SERVER_HOST
+          name: datatracker-config
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/statistics:v3.6.2
+    name: statistics
+    ports:
+    - containerPort: 80
+    resources:
+      requests:
+        memory: 100Mi
+  enabled: true
+  imagePullSecrets:
+    name: regcred
+  initContainers: []
+  name: statistics
+  replicas: 1
+  securityContext: {}
+  serviceAccountName: ''
+svc:
+  enabled: true
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: statistics

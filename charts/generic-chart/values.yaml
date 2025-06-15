@@ -1,0 +1,6 @@
+service:
+  enabled: true
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080

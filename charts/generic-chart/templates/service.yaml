@@ -1,0 +1,17 @@
+{{- if and .Values.svc (default false .Values.svc.enabled) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  type: {{ .Values.service.type | default "ClusterIP" }}
+  selector:
+    app: {{ .Release.Name }}
+  ports:
+    {{- range .Values.svc.ports }}
+    - name: {{ .name | default "" }}
+      port: {{ .port | default "" }}
+      protocol: {{ .protocol | default "TCP" }}
+      targetPort: {{ .targetPort | default "" }}
+    {{- end }}
+{{- end }}

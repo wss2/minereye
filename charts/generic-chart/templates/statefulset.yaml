@@ -1,0 +1,109 @@
+{{- if and .Values.statefulset (default false .Values.statefulset.enabled) }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  serviceName: {{ .Release.Name }}
+  replicas: {{ .Values.statefulset.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      {{- with .Values.statefulset.securityContext }}
+      securityContext:
+        fsGroup: 1001
+        runAsGroup: 1001
+        {{- with .runAsUser }}
+        runAsUser: {{ . }}
+        {{- end }}
+        {{- with .readOnlyRootFilesystem }}
+        readOnlyRootFilesystem: {{ . }}
+        {{- end }}
+      {{- end }}
+   {{- if .Values.statefulset.imagePullSecrets }}
+      imagePullSecrets:
+        {{- with .Values.statefulset.imagePullSecrets.name }}
+        - name: {{ . }}
+        {{- end }}
+   {{- end }}
+      containers:
+        - name: {{ .Release.Name }}
+          image: "{{ .Values.statefulset.image }}"
+          imagePullPolicy: {{ .Values.statefulset.imagePullPolicy }}
+        {{- if .Values.statefulset.ports }}
+          ports:
+          {{- range .Values.statefulset.ports }}
+            - containerPort: {{ .containerPort }}
+              {{- with .name }}
+              name: {{ . }}
+              {{- end }}
+              {{- with .protocol }}
+              protocol: {{ . }}
+              {{- end }}
+          {{- end }}
+        {{- end }}
+          {{- if .Values.statefulset.env }}
+          env:
+          {{- range .Values.statefulset.env }}
+            - name: {{ .name }}
+              {{- if .value }}
+              value: {{ .value | quote  }}
+              {{- end }}
+              {{- if .valueFrom }}
+              valueFrom:
+                {{- if .valueFrom.configMapKeyRef }}
+                configMapKeyRef:
+                  key: {{ .valueFrom.configMapKeyRef.key }}
+                  name: {{ .valueFrom.configMapKeyRef.name }}
+                {{- end }}
+                {{- if .valueFrom.secretKeyRef }}
+                secretKeyRef:
+                  key: {{ .valueFrom.secretKeyRef.key }}
+                  name: {{ .valueFrom.secretKeyRef.name }}
+                {{- end }}
+              {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.statefulset.volume}}
+          volumeMounts:
+            - mountPath: {{ .Values.statefulset.volume.mountPath }}
+              name: {{ .Release.Name }}
+          {{- end }}
+          {{- if .resources }}
+          resources:
+          {{- if .resources.limits }}
+            limits:
+            {{- if .resources.limits.cpu }}
+              cpu: {{ .resources.limits.cpu }}
+              {{- end }}
+              {{- if .resources.limits.memory }}
+              memory: {{ .resources.limits.memory }}
+              {{- end }}
+              {{- end }}
+              {{- if .resources.requests }}
+            requests:
+            {{- if .resources.requests.cpu }}
+              cpu: {{ .resources.requests.cpu }}
+              {{- end }}
+              {{- if .resources.requests.memory }}
+              memory: {{ .resources.requests.memory }}
+              {{- end }}
+          {{- end }}
+          {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Release.Name }}
+      spec:
+        accessModes:
+        {{- range .Values.statefulset.volume.mode }}
+          - {{ . | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.statefulset.volume.size }}
+{{- end }}

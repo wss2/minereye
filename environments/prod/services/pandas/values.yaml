@@ -1,0 +1,141 @@
+deployment:
+  containers:
+  - env:
+    - name: POD_VAR
+      value: pandas
+    - name: SHOULD_VERIFY
+      value: 'True'
+    - name: MAX_ROW_PANDAS
+      value: '100000'
+    - name: ES_SERVICE_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_HOST
+          name: datatracker-config
+    - name: ES_SERVICE_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_PORT
+          name: datatracker-config
+    - name: ELASTIC_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_HOST
+          name: datatracker-config
+    - name: ELASTIC_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_PORT
+          name: datatracker-config
+    - name: REDIS_Q_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Q_HOST
+          name: datatracker-config
+    - name: REDIS_Q_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Q_PORT
+          name: datatracker-config
+    - name: REDIS_Cl_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Cl_HOST
+          name: datatracker-config
+    - name: REDIS_Cl_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Cl_PORT
+          name: datatracker-config
+    - name: EXCEL_EXTENSION
+      valueFrom:
+        configMapKeyRef:
+          key: EXCEL_EXTENSION
+          name: datatracker-config
+    - name: REDIS_C_DBINDEX
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_DBINDEX
+          name: datatracker-config
+    - name: REDIS_C_STATISTICS_DBINDEX
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_STATISTICS_DBINDEX
+          name: datatracker-config
+    - name: REDIS_C_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_HOST
+          name: datatracker-config
+    - name: REDIS_C_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_PORT
+          name: datatracker-config
+    - name: REDIS_DB_TASK_INDEX
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_DB_TASK_INDEX
+          name: datatracker-config
+    - name: PGSQL_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_HOST
+          name: datatracker-config
+    - name: PGSQL_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_PORT
+          name: datatracker-config
+    - name: PGSQL_DB
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_DB
+          name: datatracker-config
+    - name: SCAN_STATUS
+      valueFrom:
+        configMapKeyRef:
+          key: SCAN_STATUS
+          name: datatracker-config
+    - name: PROMETHEUS_ADDRESS
+      valueFrom:
+        configMapKeyRef:
+          key: PROMETHEUS_ADDRESS
+          name: datatracker-config
+    - name: PGSQL_PASS
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_PASS
+          name: datatracker-secrets
+    - name: PGSQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_USER
+          name: datatracker-secrets
+    - name: SOURCE_IV
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sourceiv
+    - name: SOURCE_KEY
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sourcekey
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/pandas:v3.6.2
+    name: pandas
+    ports: []
+    resources:
+      requests:
+        memory: 400Mi
+  enabled: true
+  imagePullSecrets:
+    name: regcred
+  initContainers: []
+  name: pandas-deployment
+  replicas: 1
+  securityContext:
+    fsGroup: 1001
+    runAsGroup: 1001
+    runAsUser: '0'
+  serviceAccountName: ''

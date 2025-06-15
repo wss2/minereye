@@ -1,0 +1,16 @@
+{{- if and .Values.clusterRole (default false .Values.clusterRole.enabled) }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Release.Name }}
+rules:
+{{- range .Values.clusterRole.rules }}
+  - apiGroups: {{ .apiGroups | toJson}}
+    resources: {{ .resources | toJson}}
+    verbs: {{ .verbs | toJson }}
+{{- end }}
+{{- range .Values.clusterRole.resourceUrls }}
+  - nonResourceURLs: {{ .nonResourceURLs | toJson}}
+    verbs: {{ .verbs | toJson }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,116 @@
+helmDefaults:
+  atomic: true
+  cleanupOnFail: true
+  wait: true
+  historyMax: 5
+templates:
+  releases: &services
+    missingFileHandler: Warn
+    values:
+      - ../../environments/{{ .Environment.Name }}/infra/{{`{{ .Release.Name }}`}}/values.yaml
+environments:
+  dev:
+  prod:
+
+releases:
+  - name: postgresql-me
+    chart: ../../charts/infra/postgresql/postgresql-6.2.1.tgz
+    namespace: me
+    labels:
+      svc: postgresql
+      apply: all
+    <<: *services
+  - name: redisbytes-me
+    namespace: me
+    chart: ../../charts/infra/redis/redis-5.5.0.tgz
+    labels:
+      stack: redis
+      svc: rbytes
+      apply: all
+    <<: *services
+  - name: rediscache-me
+    namespace: me
+    chart: ../../charts/infra/redis/redis-5.5.0.tgz
+    labels:
+      stack: redis
+      svc: rcache
+      apply: all
+    <<: *services
+  - name: redisqueue-me
+    namespace: me
+    chart: ../../charts/infra/redis/redis-5.5.0.tgz
+    labels:
+      stack: redis
+      svc: rqueue
+      apply: all
+    <<: *services
+  - name: redissources-me
+    namespace: me
+    chart: ../../charts/infra/redis/redis-5.5.0.tgz
+    labels:
+      stack: redis
+      svc: rresources
+      apply: all
+    <<: *services
+  - name: redisretry-me
+    namespace: me
+    chart: ../../charts/infra/redis/redis-5.5.0.tgz
+    labels:
+      stack: redis
+      svc: rretry
+      apply: all
+    <<: *services
+  - name: elastic-me
+    namespace: me
+    chart: ../../charts/infra/elasticsearch/elasticsearch-7.0.1-alpha1.tgz
+    labels:
+      stack: elastic
+      svc: elasticsearch
+      apply: all
+    <<: *services
+  - name: elasticsearch-curator
+    namespace: me
+    chart: ../../charts/infra/elasticsearch-curator/elasticsearch-curator-2.0.3.tgz
+    labels:
+      stack: elastic
+      svc: elasticsearch-curator
+      apply: all
+    <<: *services
+  - name: cerebro-me
+    namespace: me
+    chart: ../../charts/infra/cerebro/cerebro-0.5.2.tgz
+    labels:
+      svc: cerebro
+      apply: all
+    <<: *services
+  - name: nginx-ingress
+    namespace: me
+    chart: ../../charts/infra/nginx-ingress/ingress-nginx-4.9.0.tgz
+    labels:
+      svc: nginx-ingress
+      apply: all
+    <<: *services
+  - name: prometheus
+    namespace: monitoring
+    chart: ../../charts/infra/prometheus/prometheus-9.1.2.tgz
+    labels:
+      svc: prometheus
+      stack: monitoring
+      apply: all
+    <<: *services
+  - name: rabbitmq-operator
+    namespace: rabbitmq-system
+    chart: ../../charts/infra/rabbitmq-operator/rabbitmq-operator-8.12.2.tgz
+    labels:
+      svc: rabbitmq-operator
+      stack: rabbitmq
+      apply: all
+    <<: *services
+  - name: rabbit-me-rabbitmq
+    namespace: me
+    chart: ../../charts/infra/rabbit/rabbitmq-8.12.2.tgz
+    labels:
+      svc: rabbitmq
+      apply: all
+      stack: rabbitmq
+    <<: *services

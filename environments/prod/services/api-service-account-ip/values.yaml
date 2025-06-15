@@ -1,0 +1,21 @@
+account:
+  enabled: true
+binding:
+  enabled: true
+clusterRole:
+  enabled: true
+  rules:
+  - apiGroups:
+    - ''
+    resources:
+    - nodes
+    - services
+    verbs:
+    - get
+    - list
+  - apiGroups:
+    - batch
+    resources:
+    - cronjobs
+    verbs:
+    - patch

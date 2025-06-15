@@ -1,0 +1,367 @@
+helmDefaults:
+  atomic: true
+  cleanupOnFail: true
+  wait: true
+  historyMax: 5
+  timeout: 1200
+templates:
+  releases: &services
+    missingFileHandler: Warn
+    namespace: me
+    values:
+      - ../../environments/{{ .Environment.Name }}/services/{{`{{ .Release.Name }}`}}/values.yaml
+      - ns: me
+
+environments:
+  dev:
+  prod:
+
+releases:
+  - name: priority-class
+    chart: ../../charts/generic-chart
+    labels:
+      type: priority
+    <<: *services
+  - name: api-service-account
+    chart: ../../charts/generic-chart
+    labels:
+      type: accounts
+    <<: *services
+  - name: api-service-account-ip
+    chart: ../../charts/generic-chart
+    labels:
+      type: accounts
+    <<: *services
+  - name: dashboard
+    chart: ../../charts/generic-chart
+    labels:
+      svc: dashboard
+      type: secret
+    <<: *services
+  - name: sourcekey
+    chart: ../../charts/generic-chart
+    labels:
+      svc: sourcekey
+      type: secret
+    <<: *services
+  - name: sourceiv
+    chart: ../../charts/generic-chart
+    labels:
+      svc: sourceiv
+      type: secret
+    <<: *services
+  - name: datatracker-secrets
+    chart: ../../charts/generic-chart
+    labels:
+      svc: datatracker-secrets
+      type: secret
+    <<: *services
+  - name: jwtsecret
+    chart: ../../charts/generic-chart
+    labels:
+      svc: jwtsecret
+      type: secret
+    <<: *services
+  - name: regcred
+    chart: ../../charts/generic-chart
+    labels:
+      svc: regcred
+      type: secret
+    <<: *services
+  - name: datatracker-config
+    chart: ../../charts/generic-chart
+    labels:
+      svc: datatracker-config
+      type: config
+    <<: *services
+  - name: actions
+    chart: ../../charts/generic-chart
+    labels:
+      svc: actions
+      type: service
+      deploy: all
+    <<: *services
+  - name: ann-service
+    chart: ../../charts/generic-chart
+    labels:
+      svc: ann-service
+      type: service
+      deploy: all
+    <<: *services
+  - name: classification-ms
+    chart: ../../charts/generic-chart
+    labels:
+      svc: classification-ms
+      type: service
+      deploy: all
+    <<: *services
+  - name: classification-ms-job
+    chart: ../../charts/generic-chart
+    labels:
+      svc: classification-ms-job
+      type: service
+      deploy: all
+    <<: *services
+  - name: crawler
+    chart: ../../charts/generic-chart
+    labels:
+      svc: crawler
+      type: service
+      deploy: all
+    <<: *services
+  - name: dashboard-client
+    chart: ../../charts/generic-chart
+    labels:
+      svc: dashboard-client
+      type: service
+      deploy: all
+    <<: *services
+  - name: dashboard-server
+    chart: ../../charts/generic-chart
+    labels:
+      svc: dashboard-server
+      type: service
+      deploy: all
+    <<: *services
+  - name: entity-regression
+    chart: ../../charts/generic-chart
+    labels:
+      svc: entity-regression
+      type: service
+      deploy: all
+    <<: *services
+  - name: es-service
+    chart: ../../charts/generic-chart
+    labels:
+      svc: es-service
+      type: service
+      deploy: all
+    <<: *services
+  - name: es-upload
+    chart: ../../charts/generic-chart
+    labels:
+      svc: es-upload
+      type: service
+      deploy: all
+    <<: *services
+  - name: es-upload-duplicate
+    chart: ../../charts/generic-chart
+    labels:
+      svc: es-upload-duplicate
+      type: service
+      deploy: all
+    <<: *services
+  - name: file-type
+    chart: ../../charts/generic-chart
+    labels:
+      svc: file-type
+      type: service
+      deploy: all
+    <<: *services
+  - name: files-deleted
+    chart: ../../charts/generic-chart
+    labels:
+      svc: files-deleted
+      type: service
+      deploy: all
+    <<: *services
+  - name: files-download
+    chart: ../../charts/generic-chart
+    labels:
+      svc: files-download
+      type: service
+      deploy: all
+    <<: *services
+  - name: files-filter
+    chart: ../../charts/generic-chart
+    labels:
+      svc: files-filter
+      type: service
+      deploy: all
+    <<: *services
+  - name: files-iterator
+    chart: ../../charts/generic-chart
+    labels:
+      svc: files-iterator
+      type: service
+      deploy: all
+    <<: *services
+  - name: html-extractor
+    chart: ../../charts/generic-chart
+    labels:
+      svc: html-extractor
+      type: service
+      deploy: all
+    <<: *services
+  - name: lda
+    chart: ../../charts/generic-chart
+    labels:
+      svc: lda
+      type: service
+      deploy: all
+    <<: *services
+  - name: mip-queue
+    chart: ../../charts/generic-chart
+    labels:
+      svc: mip-queue
+      type: service
+      deploy: all
+    <<: *services
+  - name: mip
+    chart: ../../charts/generic-chart
+    labels:
+      svc: mip
+      type: service
+      deploy: all
+    <<: *services
+  - name: monitor
+    chart: ../../charts/generic-chart
+    labels:
+      svc: monitor
+      type: service
+      deploy: all
+    <<: *services
+  - name: nlp
+    chart: ../../charts/generic-chart
+    labels:
+      svc: nlp
+      type: service
+      deploy: all
+    <<: *services
+  - name: notification-job-dashboard
+    chart: ../../charts/generic-chart
+    labels:
+      svc: notification-job-dashboard
+      type: service
+      deploy: all
+    <<: *services
+  - name: ocr
+    chart: ../../charts/generic-chart
+    labels:
+      svc: ocr
+      type: service
+      deploy: all
+    <<: *services
+  - name: pandas
+    chart: ../../charts/generic-chart
+    labels:
+      svc: pandas
+      type: service
+      deploy: all
+    <<: *services
+  - name: parent-child-sync
+    chart: ../../charts/generic-chart
+    labels:
+      svc: parent-child-sync
+      type: service
+      deploy: all
+    <<: *services
+  - name: post-processing
+    chart: ../../charts/generic-chart
+    labels:
+      svc: post-processing
+      type: service
+      deploy: all
+    <<: *services
+  - name: recommendation
+    chart: ../../charts/generic-chart
+    labels:
+      svc: recommendation
+      type: service
+      deploy: all
+    <<: *services
+  - name: risk-analyzer
+    chart: ../../charts/generic-chart
+    labels:
+      svc: risk-analyzer
+      type: service
+      deploy: all
+    <<: *services
+  - name: router
+    chart: ../../charts/generic-chart
+    labels:
+      svc: router
+      type: service
+      deploy: all
+    <<: *services
+  - name: rule-engine
+    chart: ../../charts/generic-chart
+    labels:
+      svc: rule-engine
+      type: service
+      deploy: all
+    <<: *services
+  - name: scan-logs
+    chart: ../../charts/generic-chart
+    labels:
+      svc: scan-logs
+      type: service
+      deploy: all
+    <<: *services
+  - name: seclore
+    chart: ../../charts/generic-chart
+    labels:
+      svc: seclore
+      type: service
+      deploy: all
+    <<: *services
+  - name: signal
+    chart: ../../charts/generic-chart
+    labels:
+      svc: signal
+      type: service
+      deploy: all
+    <<: *services
+  - name: statistics
+    chart: ../../charts/generic-chart
+    labels:
+      svc: statistics
+      type: service
+      deploy: all
+    <<: *services
+  - name: statistics-job
+    chart: ../../charts/generic-chart
+    labels:
+      svc: statistics-job
+      type: service
+      deploy: all
+    <<: *services
+  - name: text-entities
+    chart: ../../charts/generic-chart
+    labels:
+      svc: text-entities
+      type: service
+      deploy: all
+    <<: *services
+  - name: tika
+    chart: ../../charts/generic-chart
+    labels:
+      svc: tika
+      type: service
+      deploy: all
+    <<: *services
+  - name: tracker
+    chart: ../../charts/generic-chart
+    labels:
+      svc: tracker
+      type: service
+      deploy: all
+    <<: *services
+  - name: zip-extractor
+    chart: ../../charts/generic-chart
+    labels:
+      svc: zip-extractor
+      type: service
+      deploy: all
+    <<: *services
+  - name: zoom-report
+    chart: ../../charts/generic-chart
+    labels:
+      svc: zoom-report
+      type: service
+      deploy: all
+    <<: *services
+
+
+
+

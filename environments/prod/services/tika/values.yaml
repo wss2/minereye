@@ -1,0 +1,128 @@
+deployment:
+  containers:
+  - env:
+    - name: POD_VAR
+      value: tika
+    - name: SHOULD_VERIFY
+      value: 'True'
+    - name: REDIS_Q_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Q_HOST
+          name: datatracker-config
+    - name: ENCRYPTED_TEXT_DELIMITER
+      valueFrom:
+        configMapKeyRef:
+          key: ENCRYPTED_TEXT_DELIMITER
+          name: datatracker-config
+    - name: ENCRYPTED_TEXT
+      valueFrom:
+        configMapKeyRef:
+          key: ENCRYPTED_TEXT
+          name: datatracker-config
+    - name: ENCRYPTED_TEXT_MAX_LEN
+      valueFrom:
+        configMapKeyRef:
+          key: ENCRYPTED_TEXT_MAX_LEN
+          name: datatracker-config
+    - name: REDIS_Q_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Q_PORT
+          name: datatracker-config
+    - name: REDIS_Cl_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Cl_HOST
+          name: datatracker-config
+    - name: REDIS_Cl_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_Cl_PORT
+          name: datatracker-config
+    - name: REDIS_C_DBINDEX
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_DBINDEX
+          name: datatracker-config
+    - name: REDIS_C_STATISTICS_DBINDEX
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_STATISTICS_DBINDEX
+          name: datatracker-config
+    - name: REDIS_C_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_HOST
+          name: datatracker-config
+    - name: REDIS_C_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_PORT
+          name: datatracker-config
+    - name: REDIS_DB_TASK_INDEX
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_DB_TASK_INDEX
+          name: datatracker-config
+    - name: PGSQL_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_HOST
+          name: datatracker-config
+    - name: PGSQL_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_PORT
+          name: datatracker-config
+    - name: PGSQL_DB
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_DB
+          name: datatracker-config
+    - name: PROMETHEUS_ADDRESS
+      valueFrom:
+        configMapKeyRef:
+          key: PROMETHEUS_ADDRESS
+          name: datatracker-config
+    - name: PGSQL_PASS
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_PASS
+          name: datatracker-secrets
+    - name: PGSQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_USER
+          name: datatracker-secrets
+    - name: SOURCE_IV
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sourceiv
+    - name: SOURCE_KEY
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sourcekey
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/tika:v3.6.2
+    name: tika
+    ports: []
+    resources:
+      requests:
+        memory: 100Mi
+  enabled: true
+  imagePullSecrets:
+    name: regcred
+  initContainers: []
+  name: tika-deployment
+  replicas: 1
+  securityContext: {}
+  serviceAccountName: ''
+svc:
+  enabled: true
+  ports:
+  - name: tika
+    port: 9998
+    protocol: TCP
+    targetPort: 9998

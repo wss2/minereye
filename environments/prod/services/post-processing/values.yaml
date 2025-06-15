@@ -1,0 +1,163 @@
+deployment:
+  containers:
+  - env:
+    - name: POD_VAR
+      value: post-processing
+    - name: ES_SERVICE_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_HOST
+          name: datatracker-config
+    - name: ES_SERVICE_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ES_SERVICE_PORT
+          name: datatracker-config
+    - name: ELASTIC_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_HOST
+          name: datatracker-config
+    - name: ELASTIC_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: ELASTIC_PORT
+          name: datatracker-config
+    - name: PGSQL_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_HOST
+          name: datatracker-config
+    - name: PGSQL_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_PORT
+          name: datatracker-config
+    - name: PGSQL_DB
+      valueFrom:
+        configMapKeyRef:
+          key: PGSQL_DB
+          name: datatracker-config
+    - name: SCAN_STATUS
+      valueFrom:
+        configMapKeyRef:
+          key: SCAN_STATUS
+          name: datatracker-config
+    - name: TOTAL_TO_DO
+      valueFrom:
+        configMapKeyRef:
+          key: TOTAL_TO_DO
+          name: datatracker-config
+    - name: TOTAL_DONE
+      valueFrom:
+        configMapKeyRef:
+          key: TOTAL_DONE
+          name: datatracker-config
+    - name: POST_PROCESSING_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: POST_PROCESSING_PORT
+          name: datatracker-config
+    - name: RC_DUPLICATE
+      valueFrom:
+        configMapKeyRef:
+          key: RC_DUPLICATE
+          name: datatracker-config
+    - name: RC_LINGUISTIC
+      valueFrom:
+        configMapKeyRef:
+          key: RC_LINGUISTIC
+          name: datatracker-config
+    - name: RC_NEAR_DUPLICATE
+      valueFrom:
+        configMapKeyRef:
+          key: RC_NEAR_DUPLICATE
+          name: datatracker-config
+    - name: RC_MIP
+      valueFrom:
+        configMapKeyRef:
+          key: RC_MIP
+          name: datatracker-config
+    - name: REDIS_C_STATISTICS_DBINDEX
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_STATISTICS_DBINDEX
+          name: datatracker-config
+    - name: REDIS_C_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_HOST
+          name: datatracker-config
+    - name: REDIS_C_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: REDIS_C_PORT
+          name: datatracker-config
+    - name: EVENTS
+      valueFrom:
+        configMapKeyRef:
+          key: EVENTS
+          name: datatracker-config
+    - name: PGSQL_PASS
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_PASS
+          name: datatracker-secrets
+    - name: PGSQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: PGSQL_USER
+          name: datatracker-secrets
+    - name: STATS_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: STATS_HOST
+          name: datatracker-config
+    - name: STATS_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: STATS_PORT
+          name: datatracker-config
+    - name: RC_MAX_COUNT_DUP
+      valueFrom:
+        configMapKeyRef:
+          key: RC_MAX_COUNT_DUP
+          name: datatracker-config
+    - name: RC_MAX_COUNT_NEAR_DUP
+      valueFrom:
+        configMapKeyRef:
+          key: RC_MAX_COUNT_NEAR_DUP
+          name: datatracker-config
+    - name: RC_MAX_COUNT_MIP
+      valueFrom:
+        configMapKeyRef:
+          key: RC_MAX_COUNT_MIP
+          name: datatracker-config
+    - name: APPLY_LINGUISTIC
+      valueFrom:
+        configMapKeyRef:
+          key: APPLY_LINGUISTIC
+          name: datatracker-config
+    image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/post-processing:v3.6.2
+    name: post-processing
+    ports:
+    - containerPort: 3015
+    resources:
+      requests:
+        memory: 100Mi
+  enabled: true
+  imagePullSecrets:
+    name: regcred
+  initContainers: []
+  name: post-processing-deployment
+  replicas: 1
+  securityContext: {}
+  serviceAccountName: ''
+svc:
+  enabled: true
+  ports:
+  - port: 3015
+    protocol: TCP
+    targetPort: 3015
+  selector:
+    app: post-processing

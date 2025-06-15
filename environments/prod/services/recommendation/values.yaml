@@ -1,0 +1,57 @@
+cronjob:
+  concurrencyPolicy: Forbid
+  enabled: true
+  env:
+  - name: IS_CRON_JOB
+    value: 'yes'
+  - name: STATS_HOST
+    valueFrom:
+      configMapKeyRef:
+        key: STATS_HOST
+        name: datatracker-config
+  - name: STATS_PORT
+    valueFrom:
+      configMapKeyRef:
+        key: STATS_PORT
+        name: datatracker-config
+  - name: POST_PROCESSING_HOST
+    valueFrom:
+      configMapKeyRef:
+        key: POST_PROCESSING_HOST
+        name: datatracker-config
+  - name: POST_PROCESSING_PORT
+    valueFrom:
+      configMapKeyRef:
+        key: POST_PROCESSING_PORT
+        name: datatracker-config
+  - name: PGSQL_HOST
+    valueFrom:
+      configMapKeyRef:
+        key: PGSQL_HOST
+        name: datatracker-config
+  - name: PGSQL_PORT
+    valueFrom:
+      configMapKeyRef:
+        key: PGSQL_PORT
+        name: datatracker-config
+  - name: PGSQL_DB
+    valueFrom:
+      configMapKeyRef:
+        key: PGSQL_DB
+        name: datatracker-config
+  - name: PGSQL_PASS
+    valueFrom:
+      secretKeyRef:
+        key: PGSQL_PASS
+        name: datatracker-secrets
+  - name: PGSQL_USER
+    valueFrom:
+      secretKeyRef:
+        key: PGSQL_USER
+        name: datatracker-secrets
+  image: me-west1-docker.pkg.dev/minereye-delivery-public/minereye-services/post-processing:v3.6.2
+  name: recommendation
+  restart_policy: Never
+  schedule: 0 */12 * * *
+  secret:
+    name: regcred

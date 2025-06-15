@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dt-ingress-kibana
+  namespace: me
+  annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$1  #important. The url will not include the prefix /elastic or /automation
+spec:
+  ingressClassName: nginx-internal
+  rules:
+    - http:
+        paths:
+          - path: /app/kibana
+            pathType: Prefix
+            backend:
+              service:
+                name: dashboard-server
+                port:
+                  name: kibana
+          - path: /app/kibana/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: dashboard-server
+                port:
+                  name: kibana

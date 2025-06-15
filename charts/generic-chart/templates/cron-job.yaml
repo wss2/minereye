@@ -1,0 +1,54 @@
+{{- if and .Values.cronjob (default false .Values.cronjob.enabled) }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  schedule: "{{ .Values.cronjob.schedule }}"
+  successfulJobsHistoryLimit: 1
+  concurrencyPolicy: "{{ .Values.cronjob.concurrency }}"
+  {{- if .Values.cronjob.suspend }}
+  suspend: "{{ .Values.cronjob.suspend | quote }}"
+  {{- end }}
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          {{- if .Values.cronjob.secret }}
+          imagePullSecrets:
+            {{- with .Values.cronjob.secret.name }}
+            - name: {{ . }}
+            {{- end }}
+          {{- end }}
+          containers:
+            - name: {{ .Values.cronjob.name }}
+              image: "{{ .Values.cronjob.image }}"
+              {{- if .Values.cronjob.command }}
+              args:
+                {{- range .Values.cronjob.command }}
+                - {{ . | quote }}
+                {{- end }}
+              {{- end }}
+              env:
+                {{- range .Values.cronjob.env }}
+                - name: {{ .name }}
+                  {{- if .value }}
+                  value: {{ .value | quote }}
+                  {{- end }}
+                  {{- if .valueFrom }}
+                  valueFrom:
+                    {{- if .valueFrom.configMapKeyRef }}
+                      configMapKeyRef:
+                        key: {{ .valueFrom.configMapKeyRef.key }}
+                        name: {{ .valueFrom.configMapKeyRef.name }}
+                        {{- end }}
+                    {{- if .valueFrom.secretKeyRef }}
+                      secretKeyRef:
+                        key: {{ .valueFrom.secretKeyRef.key }}
+                        name: {{ .valueFrom.secretKeyRef.name }}
+                        {{- end }}
+                  {{- end }}
+                {{- end }}
+          restartPolicy: "{{ .Values.cronjob.restart_policy }}"
+{{- end }}

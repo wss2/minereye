@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dt-ingress-grafana
+  namespace: me
+  annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$1  #important. The url will not include the prefix /elastic or /automation
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /app/grafana/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: dashboard-server
+                port:
+                  name: grafana

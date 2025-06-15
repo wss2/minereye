@@ -1,0 +1,5 @@
+secret:
+  data:
+    PGSQL_PASS: dmdhZG1pbg==
+    PGSQL_USER: dmlzaW9uZ3JpZA==
+  enabled: true
