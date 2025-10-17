@@ -1,40 +1,65 @@
 #!/bin/bash
+set -euo pipefail
 
+# ==========================================================
+# Bootstrap ambiente K3s + Helm + Helmfile (versione aggiornata)
+# Testato su Ubuntu/Debian 22.04+
+# ==========================================================
 
-# sudo lvresize -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
-# sudo resize2fs /dev/ubuntu-vg/ubuntu-lv
+# Espandi volume root se necessario (solo ext4)
+# sudo lvresize -l +100%FREE /dev/ubuntu-vg/ubuntu-lv && sudo resize2fs /dev/ubuntu-vg/ubuntu-lv
 
+echo "[1/8] Aggiornamento pacchetti..."
+sudo apt-get update -y
+sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release jq software-properties-common
 
-# Update and Install Dependencies
-sudo apt-get update
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
+echo "[2/8] Installazione Python e librerie YAML..."
+if ! command -v python3 &>/dev/null; then
+    sudo apt-get install -y python3 python3-pip
+fi
+python3 -m pip install --upgrade pip
+python3 -m pip install -q PyYAML ruamel.yaml argparse
 
-# Install jq
-sudo apt-get install -y jq
+echo "[3/8] Installazione Helm..."
+if ! command -v helm &>/dev/null; then
+    curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+else
+    echo "Helm già installato: $(helm version --short)"
+fi
 
-# Install pip3 and Python packages
-sudo apt-get install -y python3-pip
-pip3 install PyYAML ruamel.yaml argparse
+echo "[4/8] Installazione plugin Helm Diff..."
+if ! helm plugin list | grep -q "diff"; then
+    helm plugin install https://github.com/databus23/helm-diff
+else
+    echo "Plugin helm-diff già presente"
+fi
 
-# Install helm
-curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
-sudo apt-get install apt-transport-https --yes
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-sudo apt-get update
-sudo apt-get install helm
+echo "[5/8] Installazione Helmfile..."
+if ! command -v helmfile &>/dev/null; then
+    VERSION=$(curl -s https://api.github.com/repos/helmfile/helmfile/releases/latest | jq -r .tag_name)
+    curl -sSL "https://github.com/helmfile/helmfile/releases/download/${VERSION}/helmfile_${VERSION#v}_linux_amd64.tar.gz" -o /tmp/helmfile.tar.gz
+    tar -zxf /tmp/helmfile.tar.gz -C /tmp/
+    sudo mv /tmp/helmfile /usr/local/bin/helmfile
+    sudo chmod +x /usr/local/bin/helmfile
+    rm /tmp/helmfile.tar.gz
+else
+    echo "Helmfile già installato: $(helmfile --version)"
+fi
 
-# Install helm diff plugin
-sudo helm plugin install https://github.com/databus23/helm-diff
+echo "[6/8] Installazione o aggiornamento K3s..."
+if ! systemctl is-active --quiet k3s; then
+    curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="server --disable=traefik" sh -
+else
+    echo "K3s già in esecuzione"
+fi
 
-# Install helmfile
-curl -SsL https://github.com/helmfile/helmfile/releases/download/v0.161.0/helmfile_0.161.0_linux_amd64.tar.gz -o helmfile.tar.gz
-tar -zxf helmfile.tar.gz -C /tmp/
-rm helmfile.tar.gz
-chmod 700 /tmp/helmfile
-sudo mv /tmp/helmfile /usr/local/bin/helmfile
+echo "[7/8] Verifica versioni installate..."
+helm version
+helmfile --version
+k3s --version | head -n1
 
-# Install k3s
-curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="server --disable=traefik" sh -
+echo "[8/8] Pulizia pacchetti inutili..."
+sudo apt-get autoremove -y
+sudo apt-get clean
 
-
-echo "Installation complete."
+echo "Installazione completata con successo."
