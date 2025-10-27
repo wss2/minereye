@@ -22,7 +22,7 @@ releases:
     <<: *services
   - name: redisbytes-me
     namespace: me
-    chart: ../../charts/infra/redis/redis-8.0-modern.tgz
+    chart: ../../charts/infra/redis/redis-5.5.0.tgz
     labels:
       stack: redis
       svc: rbytes
@@ -30,7 +30,7 @@ releases:
     <<: *services
   - name: rediscache-me
     namespace: me
-    chart: ../../charts/infra/redis/redis-8.0-modern.tgz
+    chart: ../../charts/infra/redis/redis-5.5.0.tgz
     labels:
       stack: redis
       svc: rcache
@@ -38,7 +38,7 @@ releases:
     <<: *services
   - name: redisqueue-me
     namespace: me
-    chart: ../../charts/infra/redis/redis-8.0-modern.tgz
+    chart: ../../charts/infra/redis/redis-5.5.0.tgz
     labels:
       stack: redis
       svc: rqueue
@@ -46,7 +46,7 @@ releases:
     <<: *services
   - name: redissources-me
     namespace: me
-    chart: ../../charts/infra/redis/redis-8.0-modern.tgz
+    chart: ../../charts/infra/redis/redis-5.5.0.tgz
     labels:
       stack: redis
       svc: rresources
@@ -54,7 +54,7 @@ releases:
     <<: *services
   - name: redisretry-me
     namespace: me
-    chart: ../../charts/infra/redis/redis-8.0-modern.tgz
+    chart: ../../charts/infra/redis/redis-5.5.0.tgz
     labels:
       stack: redis
       svc: rretry
@@ -62,7 +62,7 @@ releases:
     <<: *services
   - name: elastic-me
     namespace: me
-    chart: ../../charts/infra/elasticsearch/elasticsearch-7.0.1-alpha1.tgz
+    chart: ../../charts/infra/elasticsearch/elasticsearch-7.17.15.tgz
     labels:
       stack: elastic
       svc: elasticsearch
