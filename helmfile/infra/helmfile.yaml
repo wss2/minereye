@@ -92,7 +92,7 @@ releases:
     <<: *services
   - name: prometheus
     namespace: monitoring
-    chart: ../../charts/infra/prometheus/prometheus-9.1.2.tgz
+    chart: ../../charts/infra/prometheus/prometheus-9.2.0.tgz
     labels:
       svc: prometheus
       stack: monitoring
